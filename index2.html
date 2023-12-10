@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+    <title>城市排水管网智慧管理系统</title>
+    <script type="text/javascript" src="/html_try/js/jquery.js"></script>
+    <script type="text/javascript" src="/html_try/js/echarts.min.js"></script>
+    <script type="text/javascript" src="/html_try/js/china.js"></script>
+    <script type="text/javascript" src="/html_try/js/map.js"></script>
+    <script type="text/javascript" src="/html_try/js/js.js"></script>
+    <link rel="stylesheet" href="/html_try/css/style.css">
+    <script type="text/javascript" src="http://api.tianditu.gov.cn/api?v=4.0&tk=22e807210961259345bedfdbe8bc327c"></script>
+
+
+    <link rel="stylesheet" href="/html_try/css/控件.css" />
+    <script src="https://cache.amap.com/lbs/static/es5.min.js"></script>
+
+
+    <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
+    <!-- <link rel="stylesheet" href="/home_page/css/index.css"/> -->
+    <!--主题样式css引入-->
+    <link rel="stylesheet" href="/html_try/css/主题.css" />
+    <!--放大缩小-->
+    <link rel="stylesheet" href="/html_try/css/放大缩小.css"/>
+    <!--两点间距离-->
+    <link rel="stylesheet" href="/html_try/css/两点间距.css" />
+
+    <!--引入js相关的资源-->
+    <script type="text/javascript">
+        window._AMapSecurityConfig = {
+            securityJsCode:'6fd519baaaf74cf6b2f54c9bee3d5a3d',
+        }</script>
+        <script type="text/javascript"
+        src="https://webapi.amap.com/maps?v=1.4.15&key=be3100f649613c9f0cb4d2df196097c3"></script>
+        <script src="/js/store.js"></script>
+        <style>
+            a:link{
+                color: id=rgb(252, 246, 246);
+            }
+        </style>
+        <style>
+        #container{
+            width: 55%;
+            height: 100%;
+            position: absolute;
+            top: 90px;
+            left: 340px;
+            border-radius: 0px;
+            z-index: 95;
+        }
+        #input-card2{
+            top:390px;
+            left: 1180px;
+            position: absolute;
+            width: 60%;
+            height: 12%;
+            border-radius: 0px;
+            color:rgb(57, 140, 212);
+            z-index: 99;
+        }
+        #input-card{
+            top:60px;
+            left:2px;
+            position: absolute;
+            width: 60%;
+            height: 12%;
+            border-radius: 0px;
+            color:rgb(57, 140, 212);
+            z-index: 99;
+        }
+
+        .tianqi{
+            top: 27px;
+            left: 366px;
+            position: absolute;
+            width: 40%;
+            height: 20%;
+        }
+
+    </style>
+            <!-- .input-item{
+            width:10%;
+            height: 10%;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            border-radius: 0px;
+            z-index: 95;
+        } -->
+
+</head>
+
+<body>
+<div>
+    <div id="container"></div>
+    <!-- // 把地图容器的透明度设置为0.7，使地图显示为70%的透明度 -->
+    <!-- this.map.getContainer().style.opacity = 0.7;  -->
+    <!--主题样式-->
+    <div id="input-card2" style="width:18.5rem" >
+        <div id="map-styles" style="color:rgb(57, 140, 212)">
+        <div class="input-item" style="color:rgb(57, 140, 212)">
+            <input type='radio' name='mapStyle' value='normal'>
+            <span>标准</span>
+            <span class="input-text">normal</span>
+        </div>
+        <div class="input-item" style="color:rgb(57, 140, 212)"><input type='radio' name='mapStyle' value='darkblue'><span>黑色</span>
+            <span class="input-text">black</span></div>
+    </div>
+<div>
+    <div id='input-card'  style="width:10rem">
+        <div class="input-item">
+            <input type="checkbox" onclick="toggleScale(this)"/>比例尺
+        </div>
+        
+        <div class="input-item">
+            <input type="checkbox" id="toolbar" onclick="toggleToolBar(this)"/>工具条
+        </div>
+        
+        <div class="input-item">
+            <input type="checkbox" id="toolbarDirection" disabled onclick="toggleToolBarDirection(this)"/>工具条方向盘
+        </div>
+        
+        <div class="input-item">
+            <input type="checkbox" id="toolbarRuler" disabled onclick="toggleToolBarRuler(this)"/>工具条标尺
+        </div>
+        
+        <div class="input-item">
+            <input type="checkbox" id="overview" onclick="toggleOverViewShow(this)"/>显示鹰眼
+        </div>
+        
+        <div class="input-item">
+            <input type="checkbox" id="overviewOpen" disabled onclick="toggleOverViewOpen(this)"/>展开鹰眼
+        </div>
+    </div>
+
+    
+    <script>
+        var scale = new AMap.Scale({
+            visible: false
+        }),
+        toolBar = new AMap.ToolBar({
+            visible: false
+        }),
+        overView = new AMap.OverView({
+            visible: false
+        }),
+        map = new AMap.Map("container", {
+            resizeEnable: true
+        });
+        map.addControl(scale);
+        map.addControl(toolBar);
+        map.addControl(overView);
+        function toggleScale(checkbox) {
+            if (checkbox.checked) {
+                scale.show();
+            } else {
+                scale.hide();
+            }
+        }
+        function toggleToolBar(checkbox) {
+            if (checkbox.checked) {
+                showToolBar();
+                showToolBarDirection();
+                showToolBarRuler();
+            } else {
+                hideToolBar();
+                hideToolBarDirection();
+                hideToolBarRuler();
+            }
+        }
+        function toggleToolBarDirection(checkbox) {
+            if (checkbox.checked) {
+                toolBar.showDirection()
+            } else {
+                toolBar.hideDirection()
+            }
+        }
+        function toggleToolBarRuler(checkbox) {
+            if (checkbox.checked) {
+                toolBar.showRuler();
+            } else {
+                toolBar.hideRuler();
+            }
+        }
+        function toggleOverViewShow(checkbox) {
+            if (checkbox.checked) {
+                overView.show();
+                document.getElementById('overviewOpen').disabled = false;
+            } else {
+                overView.hide();
+                document.getElementById('overviewOpen').disabled = true;
+            }
+        }
+        function toggleOverViewOpen(checkbox) {
+            if (checkbox.checked) {
+                overView.open();
+            }
+            else {
+                overView.close();
+            }
+        }
+        function showToolBar() {
+            document.getElementById('toolbar').checked = true;
+            document.getElementById('toolbarDirection').disabled = false;
+            document.getElementById('toolbarRuler').disabled = false;
+            toolBar.show();
+        }
+        function hideToolBar() {
+            document.getElementById('toolbar').checked = false;
+            document.getElementById('toolbarDirection').disabled = true;
+            document.getElementById('toolbarRuler').disabled = true;
+            toolBar.hide();
+        }
+        function showToolBarDirection() {
+            document.getElementById('toolbarDirection').checked = true;
+            toolBar.showDirection();
+        }
+        function hideToolBarDirection() {
+            document.getElementById('toolbarDirection').checked = false;
+            toolBar.hideDirection();
+        }
+        function showToolBarRuler() {
+            document.getElementById('toolbarRuler').checked = true;
+            toolBar.showRuler();
+        }
+        function hideToolBarRuler() {
+            document.getElementById('toolbarRuler').checked = false;
+            toolBar.hideRuler();
+        }
+    </script>
+</div>
+</div>
+<script src="https://cache.amap.com/lbs/static/es5.min.js"></script><!--网页js代码-->
+    <script>
+        //主题样式
+        //初始化地图
+        var map = new AMap.Map('container', {
+            resizeEnable: true, //是否监控地图容器尺寸变化
+            mapStyle: "amap://styles/whitesmoke"
+        });
+    
+        //绑定radio点击事件
+        var radios = document.querySelectorAll("#map-styles input");
+        radios.forEach(function(ratio) {
+            ratio.onclick = setMapStyle;
+        });
+    
+        function setMapStyle() {
+            var styleName = "amap://styles/" + this.value;
+            map.setMapStyle(styleName);
+        }
+        </script>
+    <!--4.加载地图-->
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=be3100f649613c9f0cb4d2df196097c3"></script>
+    <script type="text/javascript">
+        //声明变量
+        var map=new AMap.Map('container',
+        {
+            center:[115.827196,28.72268],//设置地图中心点经纬度，东华理工大学
+            zoom:16,//地图缩放比例(3~20)
+            viewMode:'3D',
+            pitch:45,
+        })
+        var traffic=new AMap.TileLayer.Traffic({
+            autoRefresh:true,//是否自动刷新,默认为false
+            interval:180,//刷新间隔,默认为180s
+        })
+
+        //map.add(traffic)//通过add方法添加图层
+
+        function add(){
+            map.add(traffic)
+        }
+        function remove(){
+            map.remove(traffic)
+        }
+    </script>
+</div>
+
+
+
+    <!-- <iframe 
+    style="overflow:auto;text-align:center; margin-left:65%;margin-top:0px;"
+    width="500" scrolling="no" height="100" frameborder="0" allowtransparency="true" src="https://i.tianqi.com?c=code&id=40&color=%23FFFFFF&icon=1&py=nanchang&site=12"></iframe> -->
+    <div class="head clearfix">
+        <div></div>
+        <h1 class="pulll_left">城市排水管网智慧管理系统</h1>
+
+
+    <!-- 我们先做出导航条 -->
+
+    <div class="nav">
+
+        <ul class="navlist">
+
+            <!-- 我们开始做下拉列表 -->
+
+            <!-- 复制出多个列表 -->
+
+            <li class="btli"><a href="#">查询统计</a>
+
+                <ul class="droplist">
+
+                    <li><a href="#">快速查询</a></li>
+
+                    <li><a href="#">条件查询</a></li>
+
+                    <li><a href="#">统计分析</a></li>
+
+                </ul>
+
+            </li>
+
+            <li class="btli"><a href="#">智能分析</a>
+
+                <ul class="droplist">
+
+                    <li><a href="#">断面分析</a></li>
+
+                    <li><a href="#">空间分析</a></li>
+
+                    <li><a href="#">净距分析</a></li>
+
+                </ul>
+
+            </li>
+
+            <li class="btli"><a href="#">运行现状</a>
+
+                <ul class="droplist">
+
+                    <li><a href="#">资产汇总</a></li>
+
+                    <li><a href="#">资产分布</a></li>
+
+                    <li><a href="#">管网比例</a></li>
+
+                    <li><a href="#">健康度评估</a></li>
+
+                </ul>
+
+            </li>
+
+            <li class="btli"><a href="#">地图报表下载</a>
+
+                <ul class="droplist">
+
+                    <li><a href="#">打印输出</a></li>
+
+                </ul>
+
+            </li>
+
+        </ul>
+        <div>
+            <div class="tianqi">
+                <iframe width="500" scrolling="no" height="40" frameborder="0" allowtransparency="true" src="https://i.tianqi.com?c=code&id=40&color=%23FFFFFF&icon=1&py=nanchang&site=11"></iframe>
+            </div>
+        </div>
+
+    </div>
+                <!--时间-->
+                <div id="time"></div>
+                <script>
+                    function mytime(){
+                        var a = new Date();
+                        var b = a.toLocaleTimeString();
+                        var c = a.toLocaleDateString();
+                        document.getElementById("time").innerHTML = c+"&nbsp"+b;
+                        }
+                    setInterval(function() {mytime()},1000);
+                </script>
+    </div>
+    <div class="mainbox">
+
+        <ul class="clearfix nav1">
+            <li style="width: 25%">
+                <div class="box">
+                    <div class="tit"
+                    style="color:aliceblue">管网比例</div>
+                    <div class="boxnav" style="height: 300px;"id="echart5">
+                        <div class="box">
+                            <!-- <div class="tit">管网比例</div>
+                            <div class="boxnav" style="height: 250px;" id="echart5"> -->
+        
+        
+        
+                            <!-- </div> -->
+                        </div>
+                        <!-- <div class="yqlist">
+                            <ul class="clearfix">
+                                <li>
+                                    <div class="yq" id="yq">2634</div>
+                                    <span>销售总数(1)</span>
+                                </li>
+                                <li>
+                                    <div class="yq">567</div>
+                                    <span>数据展示(2)</span>
+                                </li>
+                                <li>
+                                    <div class="yq">56345</div>
+                                    <span>数据展示(3)</span>
+                                </li>
+                                <li>
+                                    <div class="yq">721</div>
+                                    <span>数据展示(4)</span>
+                                </li>
+                            </ul>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="tit"
+                    style="color:aliceblue"
+                    >资产分布:排水设施的分布情况</div>
+                    <div class="boxnav" style="height:auto">
+                        <div class="" style="height: 250px" id="echart2"></div>
+
+                    </div>
+                </div>
+            </li>
+            <li style="width: 56%">
+
+                <div class="box">
+                    <div class="boxnav mapc" style="height: 550px; position: relative">
+                        <div class="map" id="map"></div>
+                        <div id="map"></div>
+                        <!-- <script>
+                            //初始化地图对象
+                            map = new T.Map("map", { datasourcesControl: true });
+                            //设置显示地图的中心点和级别
+                            map.centerAndZoom(new T.LngLat(116.40969, 39.89945), 12);
+                            //创建对象
+                            var ctrl = new T.Control.MapType();
+                            //添加控件
+                            map.addControl(ctrl);
+                        </script> -->
+                    </div>
+                </div>
+                <div class="box">
+                    <!-- <div class="tit"></div> -->
+                    <div class="boxnav" style="height: 0px;">
+                    </div>
+                </div>
+            </li>
+            <li style="width: 17%">
+                <div class="box">
+                    <div class="tit" style="color:aliceblue">资产汇总</div>
+                    <div class="boxnav" id="echart4" style="height: 200px;">
+
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="tit" style="color:aliceblue">图层控制</div>
+                    <div class="boxnav" style="height: 280px;">
+
+                    </div>
+                </div>
+                <!-- <div class="box">
+                    <div class="tit">1题</div>
+                    <div class="boxnav" style="height: 250px;" id="echart6">
+
+
+
+                    </div> -->
+                </div>
+            </li>
+        </ul>
+
+
+
+        <script>
+            var t = null;
+            t = setTimeout(time, 1000);//開始运行
+            function time() {
+                clearTimeout(t);//清除定时器
+                dt = new Date();
+                var y = dt.getFullYear();
+                var mt = dt.getMonth() + 1;
+                var day = dt.getDate();
+                var h = dt.getHours();//获取时
+                var m = dt.getMinutes();//获取分
+                var s = dt.getSeconds();//获取秒
+                document.getElementById("showTime").innerHTML = y + "/" + mt + "/" + day + " " + h + ":" + m + ":" + s + "";
+                t = setTimeout(time, 1000); //设定定时器，循环运行     
+            }
+
+        </script>
+    </div>
+</body>
+
+</html>

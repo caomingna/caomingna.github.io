@@ -1,0 +1,529 @@
+@charset "utf-8";
+
+
+/* width: 39%;
+height: 69%;
+position: absolute;
+top: 55px;
+left: 435px;
+border-radius: 0px; */
+
+
+.nav {
+
+    height: 40px;
+
+    /* background: #333; */
+    float: left;
+    margin-right: 10px;
+    width: 600px;
+    border-radius: 5px;
+    padding: 1em;
+    top: 0px;
+    left: 400px;
+    position: absolute;
+    z-index: 99; 
+
+    /* box-shadow: 0 1px 2px #666; */
+
+
+}
+
+/* 去掉各种不必要 */
+
+* {
+
+    /* 内外边距为0 */
+
+    margin: 0;
+
+    padding: 0;
+
+    /* 各种列表样式为空 */
+
+    text-decoration: none;
+
+    list-style: none;
+
+}
+
+.btli {
+
+    /* 左浮动，让它们横排 */
+
+    float: left;
+
+    /* 设置宽和行高 */
+
+    width: 100px;
+
+    line-height: 40px;
+
+    /* 对齐方式是水平居中 */
+
+    text-align: center;
+
+}
+
+.navlist a {
+
+    /* 超链接的字为白色 */
+
+    color: #fff;
+
+    /* 让它以块模式来显示 */
+
+    display: block;
+
+}
+
+/* 鼠标悬停时背景变色 */
+
+.navlist a:hover {
+
+    background: #daf9ff;
+
+}
+
+.droplist {
+
+    /* 改变下拉列表的颜色 */
+
+    /* background: #daf9ff; */
+
+    /* 给它加个阴影 */
+
+    /* box-shadow: 0 1px 2px #333; */
+
+    /* 让它不显示 */
+
+    display: none;
+
+    /* 我们把列表变圆角，这样好看一点 */
+
+    border-radius: 6px;
+
+    /* 把超出来的部分隐藏 */
+
+    overflow: hidden;
+
+}
+
+/* 让鼠标移到导航项时，下拉显示 */
+
+.btli:hover .droplist {
+
+    display: block;
+
+}
+
+.droplist li {
+
+    /* 给它每一个项加一条线隔开 */
+
+    /* border-top: 1px solid #666; */
+
+}
+
+
+
+
+
+
+#time{
+    top: 10px;
+    left: 1000px;
+    position: absolute;
+    width: 14%;
+    height: 1%;
+    border-radius: 50px;
+    color: rgb(232, 255, 255);
+    font-size: 0.5rem;
+    /* font-weight: bold; */
+}
+
+/* 原 */
+
+/* CSS Document */
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box
+}
+
+*,
+body {
+    padding: 0px;
+    margin: 0px;
+    font-family: "微软雅黑";
+}
+
+body {
+    color: #fff;
+    font-size: 16px;
+    background: #033c76 url(../images/bg.png) no-repeat;
+    background-size: 100% 100%;
+}
+
+@font-face {
+    font-family: electronicFont;
+    src: url(../font/DS-DIGIT.TTF)
+}
+
+html,
+body {
+    min-height: 100%;
+}
+
+li {
+    list-style-type: none;
+}
+
+table {}
+
+i {
+    margin: 0px;
+    padding: 0px;
+    text-indent: 0px;
+}
+
+img {
+    border: none;
+    max-width: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: #fff;
+}
+
+a.active,
+a:focus {
+    outline: none !important;
+    text-decoration: none;
+}
+
+ol,
+ul,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    padding: 0;
+    margin: 0
+}
+
+a:hover {
+    color: #06c;
+    text-decoration: none !important
+}
+
+.clearfix:after,
+.clearfix:before {
+    display: table;
+    content: " "
+}
+
+.clearfix:after {
+    clear: both
+}
+
+.pulll_left {
+    float: left;
+    
+}
+
+
+.pulll_right {
+    float: right;
+}
+
+i {
+    font-style: normal;
+}
+
+.text-w {
+    color: #ffe400
+}
+
+.text-d {
+    color: #ff6316
+}
+
+.text-s {
+    color: #14e144
+}
+
+.text-b {
+    color: #07e5ff
+}
+
+.head {
+    position: relative;
+    height: 90px;
+    margin: 0 15px;
+    padding-right: 60px;
+}
+
+.head h1 {
+    font-size: 30px;
+    letter-spacing: -2px;
+    text-align: center;
+    line-height: 90px;
+    padding-right: 55px;
+    color: #daf9ff;
+    font-size: 2rem;
+text-shadow: 4px 4px 5px rgb(0, 157, 255);
+font-weight: bold;
+}
+/* top: 0px;
+left: 530px;
+position: absolute;
+width: 28%;
+height: 7%;
+border-radius: 44px;
+color: aqua;
+font-size: 2.5rem;
+text-shadow: 4px 4px 5px rgb(0, 157, 255);
+font-weight: bold; */
+
+.head .menu {}
+
+.head .menu ul {
+    font-size: 0;
+}
+
+.head .menu li {
+    display: inline-block;
+    position: relative;
+    margin: 30px 15px;
+    ;
+}
+
+.head .menu li a {
+    display: block;
+    font-size: 18px;
+    color: #fff;
+    line-height: 30px;
+    padding: 0 10px;
+}
+
+
+.menu li:before,
+.menu li:after {
+    position: absolute;
+    width: 10px;
+    height: 5px;
+    opacity: .4;
+    content: "";
+    border-top: 2px solid #02a6b5;
+    top: -1px;
+    border-radius: 2px;
+}
+
+.menu li:before,
+.menu li a:before {
+    border-left: 2px solid #02a6b5;
+    left: -1px;
+}
+
+.menu li:after,
+.menu li a:after {
+    border-right: 2px solid #02a6b5;
+    right: -1px;
+}
+
+.menu li a {
+    position: relative;
+}
+
+.menu li a:before,
+.menu li a:after {
+    position: absolute;
+    width: 10px;
+    height: 5px;
+    opacity: .4;
+    content: "";
+    border-bottom: 2px solid #02a6b5;
+    bottom: -1px;
+    border-radius: 2px;
+}
+
+.head .menu li a:hover {
+    color: #f4e925;
+}
+
+.menu li a:hover:before,
+.menu li a:hover:after,
+.menu li:hover:before,
+.menu li:hover:after {
+    border-color: #f4e925;
+    opacity: 1;
+}
+
+.mainbox {
+    padding: 0px 10px;
+}
+
+.nav1 {
+    margin-left: -6px;
+    margin-right: -6px;
+}
+
+.nav1>li {
+    padding: 0 6px;
+    float: left;
+}
+
+.box {
+    border: 1px solid rgba(7, 118, 181, .5);
+    box-shadow: inset 0 0 10px rgba(7, 118, 181, .4);
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.tit {
+    padding: 10px 10px 10px 25px;
+    border-bottom: 1px solid rgba(7, 118, 181, .7);
+    font-size: 16px;
+    font-weight: 500;
+    position: relative;
+}
+
+.tit:before,
+.tit01:before {
+    position: absolute;
+    content: "";
+    width: 6px;
+    height: 6px;
+    background: rgba(22, 214, 255, .9);
+    box-shadow: 0 0 5px rgba(22, 214, 255, .9);
+    border-radius: 10px;
+    left: 10px;
+    top: 18px;
+}
+
+.tit:after,
+.box:before {
+    width: 100%;
+    height: 1px;
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    background: linear-gradient(to right, #076ead, #4ba6e0, #076ead);
+    box-shadow: 0 0 5px rgba(131, 189, 227, 1);
+    opacity: .6
+}
+
+.box:before {
+    top: -1px;
+}
+
+.boxnav {
+    padding: 10px;
+}
+
+.tit01 {
+    font-size: 16px;
+    font-weight: 500;
+    position: relative;
+    padding-left: 15px;
+}
+
+.tit01:before {
+    left: 3px;
+    top: 8px;
+}
+
+.mapc {
+    background: url(../images/bg3.png) no-repeat center center;
+    background-size: 100% 100%
+}
+
+.map {
+    position: relative;
+    height: 100%;
+}
+
+
+
+
+
+
+.map img {}
+
+.mapnav {
+    position: absolute;
+    z-index: 10;
+}
+
+
+.yqlist li {
+    float: left;
+    width: 50%;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.yq {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 5px auto;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    font-family: electronicFont;
+    color: #fff32b;
+}
+
+.yqlist li span {
+    opacity: .6;
+    font-size: 14px;
+}
+
+.yq:before {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    content: "";
+    background: url(../images/img1.png) center center;
+    border-radius: 100px;
+    background-size: 100% 100%;
+    opacity: .3;
+    left: 0;
+    top: 0;
+    animation: myfirst2 15s infinite linear;
+}
+
+.yq:after {
+    position: absolute;
+    width: 86%;
+    background: url(../images/img2.png) center center;
+    border-radius: 100px;
+    background-size: 100% 100%;
+    opacity: .3;
+    height: 86%;
+    content: "";
+    left: 7%;
+    top: 7%;
+    animation: myfirst 15s infinite linear;
+}
+
+
+@keyframes myfirst {
+    to {
+        transform: rotate(-360deg)
+    }
+}
+
+@keyframes myfirst2 {
+    to {
+        transform: rotate(360deg)
+    }
+}
